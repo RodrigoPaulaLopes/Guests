@@ -14,5 +14,9 @@ class GuestFormViewModel(application: Application) : AndroidViewModel(applicatio
         return repository.save(guest)
     }
 
+    fun update(guest: GuestModel) : Boolean {
+        return repository.update(guest)
+    }
+
 
 }
