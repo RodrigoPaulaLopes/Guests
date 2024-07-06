@@ -2,6 +2,7 @@ package com.rodrigo.convidados
 
 import android.content.Intent
 import android.os.Bundle
+import android.widget.Toast
 import com.google.android.material.navigation.NavigationView
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
@@ -11,6 +12,7 @@ import androidx.navigation.ui.setupWithNavController
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.appcompat.app.AppCompatActivity
 import com.rodrigo.convidados.databinding.ActivityMainBinding
+import com.rodrigo.convidados.listners.OnGuestListner
 import com.rodrigo.convidados.ui.guestForm.GuestFormActivity
 
 class MainActivity : AppCompatActivity() {
@@ -29,6 +31,7 @@ class MainActivity : AppCompatActivity() {
         binding.appBarMain.fab.setOnClickListener { view ->
             startActivity(Intent(applicationContext, GuestFormActivity::class.java))
         }
+
         setUpNavMain()
     }
 
