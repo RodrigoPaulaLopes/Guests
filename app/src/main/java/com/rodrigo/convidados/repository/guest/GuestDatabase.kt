@@ -3,25 +3,39 @@ package com.rodrigo.convidados.repository.guest
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
+import androidx.room.Database
+import androidx.room.Room
+import androidx.room.RoomDatabase
+import androidx.room.migration.Migration
+import androidx.sqlite.db.SupportSQLiteDatabase
+import com.rodrigo.convidados.model.GuestModel
 
-class GuestDatabase(
-    context: Context,
-) : SQLiteOpenHelper(context, NAME, null, VERSION) {
+@Database(entities = [GuestModel::class], version = 1)
+abstract class GuestDatabase : RoomDatabase() {
 
 
+    abstract fun guestDao() : GuestDAO
     companion object {
-        private const val NAME: String = "guestdb"
-        private const val VERSION: Int = 1
-    }
+        lateinit var INSTANCE: GuestDatabase
+        fun getDatabase(context: Context): GuestDatabase {
+            synchronized(GuestDatabase::class) {
+                if (!::INSTANCE.isInitialized) {
+                    INSTANCE =
+                        Room.databaseBuilder(context, GuestDatabase::class.java, "guestdb")
+                            .addMigrations(MIGRATIONS)
+                            .allowMainThreadQueries()
+                            .build()
 
-    override fun onCreate(db: SQLiteDatabase) {
-        db.execSQL("CREATE TABLE Guest (" +
-                "id integer primary key autoincrement," +
-                "name text, " +
-                "presence integer);")
-    }
+                }
+                return INSTANCE
+            }
+        }
 
-    override fun onUpgrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) {
-        TODO("Not yet implemented")
+        private val MIGRATIONS : Migration = object  : Migration(1, 2) {
+            override fun migrate(database: SupportSQLiteDatabase) {
+               database.execSQL("SELECT * FROM guests;")
+            }
+
+        }
     }
 }

@@ -45,8 +45,11 @@ class GuestFormActivity : AppCompatActivity(), OnClickListener {
 
             val name: String = binding.edtName.text.toString()
             val presence: Boolean = binding.rbtnPresente.isChecked
-
-            viewModel.save(GuestModel(guestId, name, presence))
+            var guest = GuestModel()
+            guest.id = guestId
+            guest.name = name
+            guest.presence = presence
+            viewModel.save(guest)
 
         }
     }

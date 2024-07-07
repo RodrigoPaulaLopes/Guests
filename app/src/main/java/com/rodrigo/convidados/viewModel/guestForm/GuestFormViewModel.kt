@@ -11,7 +11,7 @@ import com.rodrigo.convidados.repository.guest.GuestRepository
 class GuestFormViewModel(application: Application) : AndroidViewModel(application) {
 
 
-    val repository: GuestRepository = GuestRepository.getInstance(application)
+    val repository: GuestRepository = GuestRepository(application)
 
 
     private val guestModel: MutableLiveData<GuestModel> = MutableLiveData<GuestModel>()
@@ -22,7 +22,7 @@ class GuestFormViewModel(application: Application) : AndroidViewModel(applicatio
 
     fun save(guest: GuestModel): Unit {
         if (guest.id == 0) {
-            if (repository.save(guest)) {
+            if (repository.insert(guest)) {
                 _isSaved.value = "Inserção com sucesso"
             } else {
                 _isSaved.value = "Falha"
