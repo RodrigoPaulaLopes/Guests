@@ -7,6 +7,7 @@ import android.view.View
 import android.view.View.OnClickListener
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.rodrigo.convidados.R
@@ -18,7 +19,7 @@ class GuestFormActivity : AppCompatActivity(), OnClickListener {
 
     lateinit var binding: ActivityGuestFormBinding
     lateinit var viewModel: GuestFormViewModel
-
+    private var guestId: Int = 0
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -35,6 +36,8 @@ class GuestFormActivity : AppCompatActivity(), OnClickListener {
         binding.buttonSave.setOnClickListener(this)
 
 
+        loadParams()
+        observer()
     }
 
     override fun onClick(v: View) {
@@ -42,11 +45,42 @@ class GuestFormActivity : AppCompatActivity(), OnClickListener {
 
             val name: String = binding.edtName.text.toString()
             val presence: Boolean = binding.rbtnPresente.isChecked
-            val isSaved = viewModel.save(GuestModel(0, name, presence))
 
-            if (isSaved) Toast.makeText(this, "Saved", Toast.LENGTH_SHORT)
-                .show() else Toast.makeText(this, "Error", Toast.LENGTH_SHORT).show()
+            viewModel.save(GuestModel(guestId, name, presence))
 
+        }
+    }
+
+
+    private fun observer() {
+        viewModel.guest.observe(this, {
+            binding.edtName.setText(it.name)
+            if (it.presence) {
+                binding.rbtnPresente.isChecked = true
+            } else {
+                binding.rbtnAusente.isChecked = true
+            }
+        })
+
+        viewModel.isSaved.observe(this, {
+            if (it != "Falha") {
+                Toast.makeText(this, it, Toast.LENGTH_SHORT).show()
+                finish()
+            }else {
+                Toast.makeText(this, it, Toast.LENGTH_SHORT).show()
+            }
+        })
+
+    }
+
+    fun loadParams() {
+        val bundle = intent.extras
+
+        if (bundle != null) {
+            val id = bundle.getInt("guestId")
+            guestId = id
+            viewModel.get(id)
+            binding.buttonSave.text = "Update"
         }
     }
 }

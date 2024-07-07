@@ -1,5 +1,6 @@
 package com.rodrigo.convidados.ui.guest
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -12,9 +13,11 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.LayoutManager
+import com.rodrigo.convidados.databinding.ActivityGuestFormBinding
 import com.rodrigo.convidados.databinding.FragmentAllGuestsBinding
 import com.rodrigo.convidados.listners.OnGuestListner
 import com.rodrigo.convidados.ui.adapter.GuestsAdapter
+import com.rodrigo.convidados.ui.guestForm.GuestFormActivity
 import com.rodrigo.convidados.viewModel.guest.AllGuestsViewModel
 
 class AllGuestsFragment : Fragment() {
@@ -37,9 +40,12 @@ class AllGuestsFragment : Fragment() {
         //adpter
         binding.reclyclerAllGuests.adapter = adapter
 
-        var listner = object  : OnGuestListner {
+        var listner = object : OnGuestListner {
             override fun onClick(id: Int) {
-                Toast.makeText(context, "Clicked ${id}", Toast.LENGTH_LONG).show()
+                val bundle = Bundle()
+                bundle.putInt("guestId", id)
+                startActivity(Intent(context, GuestFormActivity::class.java).putExtras(bundle))
+
             }
 
             override fun onDelete(id: Int) {
@@ -61,6 +67,10 @@ class AllGuestsFragment : Fragment() {
     }
 
 
+    override fun onResume() {
+        super.onResume()
+        viewModel.getAll()
+    }
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
@@ -68,7 +78,7 @@ class AllGuestsFragment : Fragment() {
 
     fun observer() {
         viewModel.guests.observe(viewLifecycleOwner) {
-           adapter.updateGuest(it)
+            adapter.updateGuest(it)
         }
     }
 }
