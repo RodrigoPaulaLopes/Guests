@@ -19,13 +19,13 @@
         android:contentDescription="@string/nav_header_desc"
         android:paddingTop="@dimen/nav_header_vertical_spacing"
         app:tint="@color/white"
-        app:srcCompat="@drawable/ic_all" />
+        app:srcCompat="@drawable/ic_event" />
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingTop="@dimen/nav_header_vertical_spacing"
-        android:text="Infinite App"
+        android:text="Guest App"
         android:textSize="22sp"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 
@@ -34,5 +34,5 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@color/white"
-        android:text="A infinite possibilities app" />
+        android:text="Your events, our guests - Connecting people and moments." />
 </LinearLayout>

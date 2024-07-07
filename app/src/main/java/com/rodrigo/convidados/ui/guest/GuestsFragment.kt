@@ -5,31 +5,25 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
-import android.widget.Toast
-import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import androidx.recyclerview.widget.RecyclerView.LayoutManager
-import com.rodrigo.convidados.databinding.ActivityGuestFormBinding
 import com.rodrigo.convidados.databinding.FragmentAllGuestsBinding
 import com.rodrigo.convidados.listners.OnGuestListner
 import com.rodrigo.convidados.ui.adapter.GuestsAdapter
 import com.rodrigo.convidados.ui.guestForm.GuestFormActivity
-import com.rodrigo.convidados.viewModel.guest.AllGuestsViewModel
+import com.rodrigo.convidados.viewModel.guest.GuestsViewModel
 
-class AllGuestsFragment : Fragment() {
+class GuestsFragment : Fragment() {
 
     private var _binding: FragmentAllGuestsBinding? = null
 
-    lateinit var viewModel: AllGuestsViewModel
+    lateinit var viewModel: GuestsViewModel
     private val adapter = GuestsAdapter()
     private val binding get() = _binding!!
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, b: Bundle?): View {
-        viewModel = ViewModelProvider(this).get(AllGuestsViewModel::class.java)
+        viewModel = ViewModelProvider(this).get(GuestsViewModel::class.java)
 
         _binding = FragmentAllGuestsBinding.inflate(inflater, container, false)
 
