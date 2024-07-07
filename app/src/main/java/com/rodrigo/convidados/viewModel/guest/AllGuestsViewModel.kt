@@ -15,10 +15,15 @@ class AllGuestsViewModel(application: Application) : AndroidViewModel(applicatio
    val listAllGuest : MutableLiveData<List<GuestModel>> = MutableLiveData<List<GuestModel>>()
    val guests : LiveData<List<GuestModel>> = listAllGuest
 
+    fun delete(id: Int) : Boolean {
+        return repository.delete(id)
+
+    }
 
     fun getAll()  {
         listAllGuest.value = repository.getAll()
     }
+
 
 
 }
